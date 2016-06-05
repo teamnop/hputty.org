@@ -1,6 +1,9 @@
 /* PuTTY Tray Main stylesheet
 ------------------------------------------------------------------*/
 
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
 /* Global
 ------------------------------------------------------------------*/
 html, body, form, h1, h2, h3, h4, h5, h6, pre, blockquote, ul, ol, dl {
@@ -16,7 +19,7 @@ body {
 	text-align: center;
 	color: #000000;
 	background-color: #FFFFFF;
-	font: 13px/15px "Tahoma", sans-serif;
+	font: 13px/15px 'Nanum Gothic', "Tahoma", sans-serif;
 	padding: 0px 0px 30px 0px;
 	}
 
