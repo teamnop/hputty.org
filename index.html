@@ -1,16 +1,39 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-    <title>PuTTYTray</title>
+    <title>HPuTTY (한글 PuTTY)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="PuTTY Tray - Minimizing to the system tray, URL hyperlinking, window transparency, portable sessions and more." />
-    <meta name="keywords" content="putty, tray, ssh, url, hyperlink, hyperlinking, icon, portable, portability, reconnect, file, save, transparency" />
+    <meta name="description" content="HPuTTY - PuTTYTray 기반의 iPuTTY 패치를 적용한 한글 PuTTY 클라이언트" />
+    <meta name="keywords" content="putty, tray, ssh, url, hyperlink, hyperlinking, icon, portable, portability, reconnect, file, save, transparency, 한글" />
     <script src="./x/script/main.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen, projection" href="./x/style/main.css" />
     <link rel="shortcut icon" href="./favicon.ico" />
 </head>
 <body>
+<script type="text/javascript">
+	var downloadURL = '';
+	jQuery.noConflict();
+	jQuery(document).ready(function() {
+		jQuery.get( "https://api.github.com/repos/teamnop/HPuTTY/releases", {}, function( data ) {
+			jQuery.each(data[0].assets, function(key, value) {
+				if ( value.name == 'putty.exe' )
+				{
+					downloadURL = value.browser_download_url;
+					jQuery('#putty-exe').attr('href', downloadURL);
+					jQuery('#linkpage').show();
+				}
+				else if ( value.name.indexOf('installer.exe') != -1 )
+				{
+					jQuery('#installer').text(value.name);
+					jQuery('#installer').attr('href', value.browser_download_url);
+				}
+				
+			});
+		}, 'json');
+	});
+</script>
 <!--[if lt IE 7]>
     <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -20,7 +43,7 @@
 
 <div id="wrap">
     <div id="head">
-        <h1>PuTTY Tray</h1>
+        <h1>HPuTTY</h1>
         <div id="icon" class="dropicon"></div>
         <div id="icondrop"></div>
     </div>
@@ -33,261 +56,129 @@
                 emulator.
             </span>
             <p>
-            PuTTY Tray is an improved version of <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>.
-                It features some cosmetic changes, and a number of addons to make it more useful and much more fun to use.
-            </p>
-            <p>
-                Originally compiled by <a href="http://haanstra.eu/putty/">Barry Haanstra</a>,
-                now maintained by <a href="https://blog.goeswhere.com/">Chris West (Faux)</a>.
+				<a href="http://puttytray.goeswhere.com">PuTTYTray</a> + <a href="https://bitbucket.org/daybreaker/iputty">iPuTTY</a> + @ = HPuTTY ( 한글 PuTTY )
             </p>
         </div>
 
         <ul id="navigation">
-            <li id="nav_features"><a href="#features" onclick="return !jsMode();"><span>Features</span></a></li>
-            <li id="nav_download"><a href="#download" onclick="return !jsMode();"><span>Download</span></a></li>
-            <li id="nav_authors"><a href="#authors" onclick="return !jsMode();"><span>Authors</span></a></li>
-            <li id="nav_source"><a href="#source" onclick="return !jsMode();"><span>Source</span></a></li>
+            <li id="nav_features"><a href="#features" onclick="return !jsMode();"><span>기능</span></a></li>
+            <li id="nav_download"><a href="#download" onclick="return !jsMode();"><span>다운로드</span></a></li>
+            <li id="nav_authors"><a href="#authors" onclick="return !jsMode();"><span>만든사람들</span></a></li>
+            <li id="nav_source"><a href="#source" onclick="return !jsMode();"><span>소스코드</span></a></li>
         </ul>
 
         <div id="content_wrap">
             <div id="iefix"><!-- IE stops showing the content_wrap background without this --></div>
 
             <div id="content_features" class="content_pane">
-                <h2><a id="features">Features</a></h2>
+                <h2><a id="features">기능</a></h2>
+				<h3>HPuTTY</h3>
+				<ul>
+					<li>Unicode fallback font 지원</li>
+				</ul>
+				<br/>
+				<h3><a href="https://bitbucket.org/daybreaker/iputty/">iPuTTY</a>에서 가져온 기능</h3>
+				<ul>
+					<li>On-the-spot IME 지원</li>
+					<li>CP949/UTF-8 빠른 변경 메뉴</li>
+					<li>ANSI/유니코드 폰트 분리</li>
+					<li>투명도 조절 단축키<li>
+					<li>Ctrl+Tab키로 다른 putty 창으로 전환</li>
+					<li>윈도우 버전을 인식하여 폰트 지정</li>
+					<li>UTF-8을 기본 인코딩으로 설정</li>
+					<li>Italic체 지원</li>
+				</ul>
+				<br/>
+				<h3><a href="http://puttytray.goeswhere.com">PuTTYTray</a>에서 가져온 기능</h3>
+                <ul>
+                    <li>시스템 트레이에 최소화 기능</li>
+                    <li>커스터마이즈 가능한 아이콘</li>
+                    <li>bell signal을 받았을때 창 깜빡임</li>
+                    <li>창 투명도 설정</li>
+                    <li>URL 하이퍼 링크</li>
+                    <li>설정을 파일로 저장</li>
+                    <li>빠른 창 고정 기능</li>
+                    <li>접속 실패시 자동 재접속 지원</li>
+                    <li>Android <a href="http://developer.android.com/guide/developing/tools/adb.html">adb</a> 지원</li>
+                </ul>
+				<br />
+                <br />
+                <h2>p0.66-t027-h03</h2>
 
                 <ul>
-                    <li>Minimizing to the system tray (on CTRL + minimize, always or directly on startup)</li>
-                    <li>Icons are customisable</li>
-                    <li>Blinks tray icon when a bell signal is received</li>
-                    <li>Configurable window transparency</li>
-                    <li>URL hyperlinking</li>
-                    <li>Portability: optionally stores session configuration in files (for example: on a USB drive) like <a href="http://code.google.com/p/portaputty/">portaPuTTY</a></li>
-                    <li>Easy access to the 'always on top' setting (in the system menu)</li>
-                    <li>Reconnects on connection failure, including when waking up from stand-by</li>
-                    <li>Android <a href="http://developer.android.com/guide/developing/tools/adb.html">adb</a> support</li>
+                    <li class="update">ctrl + tab키를 이용해 빠르게 다른 putty 창으로 전환</li>
+                    <li class="update">fallback font를 지원</li>
+					<li class="update">홈페이지 주소 수정</li>
+                </ul>
+				
+                <br />
+                <br />
+                <h2>p0.66-t027-h02</h2>
+
+                <ul>
+                    <li class="update">폰트 이름이 깨지던 문제 수정</li>
+                    <li class="update">Alt + (Shift) + [, ] 로 창 투명도 조절이 가능</li>
+					<li class="update">Italic체 지원</li>
+					<li class="update">접속 후 설정 창에서 crash 나던 문제 수정</li>
                 </ul>
                 <br />
                 <br />
-                <h2>BETA: 0.63-t020 (2013-12-22)</h2>
+                <h2>p0.66-t027-h01</h2>
 
                 <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/95">#95</a>: Asserts while loading some keys!</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/109">#109</a>: Revert <a href="https://github.com/FauxFaux/PuTTYTray/issues/88">#88</a>, which broke terminal titles for some people</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/10">#10</a>: Fiddled with default-settings-from-file(!)</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/91">#91</a>: Menu styling</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/96">#96</a>: Could generate illegal log paths</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/97">#97</a>: -title, -log, etc. from KiTTY</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/98">#98</a>: Can now be built with mingw</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/106">#106</a>: Missing tray icon after an Explorer crash</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/107">#107</a>: Can always restart session</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/110">#110</a>: Auto-reconnect in more cases</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/115">#115</a>: Paste delay (thanks to thechile!)</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/123">#123</a>: Crash with ssh-add --invalid</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/112">#112</a>: Can remove broken keys from pageant</li>
-                    <li class="update">Plus some fiddly code changes, as usual.</li>
-                </ul>
-                <br />
-                <br />
-                <h2>BETA: 0.63-t019 (2013-08-21)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/80">#80</a>: alt-gr broken by default, breaking many people's input languages, sorry!</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/81">#81</a>: Old sessions with saved dynamic port forwards wouldn't load properly</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/83">#83</a>: pageant showing dialog at boot/login</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/74">#74</a>: adb docs and options for prefering usb, emulators, etc.</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/82">#82</a>: adb allows adb-wireless style serials with a ":" prefix (hack!)</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/88">#88</a>: Attempt to mangle charsets less(?) when setting the terminal title.  This is experimental.</li>
-                    <li class="update">New: Various other usability improvements in adb, e.g. reporting error messages</li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/issues/86">#86</a>: Left-clicking the pageant tray icon brings up saved sessions</li>
-                    <li class="update"><b>Plus</b>: other fixes from <a href="https://github.com/FireEgl">Philip Moore (FireEgl)</a>  and <a href="https://github.com/xurubin">Rubin Xu</a> that I'd missed.</li>
-                </ul>
-                <br />
-                <br />
-                <h2>BETA: 0.63-t018 (2013-08-21)</h2>
-                <ul>
-                    <li class="update">Identical to p0.63-t019, oops.</li>
-                </ul>
-                <br />
-                <br />
-                <h2>BETA: 0.63-t017 (2013-08-11)</h2>
-
-                <ul>
-                    <li class="update">New: FaTTY!  PuTTYGen and Pageant bundled into the PuTTY download</li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/wiki/Automatic-logins">Automatic login</a> assistance via. ssh keys</li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/issues/3">#3</a>: URL regex updates</li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/issues/55">#55</a>: A very bad implementation of ssh-agent's "confirm key usage" for pageant</li>
-                    <li class="update">Fixed: Settings moved back onto sensible configuration pages</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/15">#15</a>: URL mangling with unicode</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/28">#28</a>: Wakeup reconnect delay</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/61">#61</a>: Truncated files problem goes away with the p0.63 release</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/72">#72</a>: Don't hang the settings page for systems with broken username detection</li>
-                    <li class="update"><b>Plus</b>: about 30 other fixes from various people, especially <a href="https://github.com/FireEgl">Philip Moore (FireEgl)</a> and <a href="https://github.com/stfnm">stfnm</a>, and over 300 changes in upstream PuTTY.</li>
-                </ul>
-                <br />
-                <br />
-                <h2>Update: 0.62-t015 (2013-08-06)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/79">#79</a>: backport other security fixes from 0.63</li>
-                    <li class="update">Note: PuTTY 0.63 has other fixes that may eventually be shown to be security issues, which are not in this release.  If you are worried about this kind of thing, you should probably run official PuTTY 0.63 until there is a stable 0.63-derived PuTTYTray release (hopefully within a week!).</li>
-                </ul>
-                <br />
-                <br />
-                <h2>Update: 0.62-t014 (2013-08-05)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/79">#79</a>: CVE-2013-4852: direct backport of hilighted fix for this security issue</li>
-                </ul>
-                <br />
-                <br />
-                <h2>Update: 0.62-t013 (2012-10-25)</h2>
-
-                <ul>
-                    <li class="update">Fixed regression: <a href="https://github.com/FauxFaux/PuTTYTray/issues/51">#51</a>: #50 didn't fully fix #38's break of adb terminals, thanks to <a href="http://larskl.de/">ztNFny</a></li>
-                    <li class="update">Fixed: adb wouldn't connect to the emulator</li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/issues/56">#56</a>: <a href="http://ttssh2.sourceforge.jp/manual/en/usage/tips/vim.html">xterm bracketed paste mode</a>, thanks to <a href="https://github.com/stfnm">stfnm</a></li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.62-t012 (2012-10-10)</h2>
-
-                <ul>
-                    <li class="update">Fixed regression: <a href="https://github.com/FauxFaux/PuTTYTray/issues/50">#50</a>: #38 broke adb terminals, thanks to <a href="http://larskl.de/">ztNFny</a></li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.62-t011 (2012-10-08)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/42">#42</a>: Some characters would break link detection, thanks to <a href="http://james-ross.co.uk/">Silver</a></li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/41">#41</a>: Crash on URL detection near the lower-right of the terminal</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/38">#38</a>: Multiple device support for Android Debug (adb), thanks to <a href="https://github.com/yumeyao">YumeYao</a></li>
-                    <li class="update">New: <a href="https://github.com/FauxFaux/PuTTYTray/issues/34">#34</a>: Pageant icon</li>
-                </ul>
-
-                <br />
-                <br />
-
-                <h2>Update: 0.62-t010 (2012-04-06)</h2>
-
-                <ul>
-                    <li class="update"><b>Fixed</b>: <a href="https://github.com/FauxFaux/PuTTYTray/issues/29">#29</a>: Crash on behaviour tab</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/27">#27</a>: Use two rows for connection type menu, thanks to <a href="https://github.com/stfnm">stfnm</a></li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/31">#31</a>: Enable jumplists for people using file settings</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/6">#6</a>: Compiles under linux (not all functionality present or even applicable)</li>
-                </ul>
-
-                <br />
-                <br />
-
-                <h2>Update: 0.62-t009 (2012-03-15)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/20">#20</a>: Invisible icon after flashing tray, thanks to <a href="https://github.com/stfnm">stfnm</a></li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/23">#23</a>: Merge <a href="https://github.com/sztupy/adbputty/">adbputty</a> by <a href="http://sztupy.hu/">sztupy</a>, giving Android Debug Bridge support</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/24">#24</a>: Behaviour menu would assert if putty.hlp was present, thanks to <a href="https://github.com/stfnm">stfnm</a></li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.62-t008 (2012-01-22)</h2>
-
-                <ul>
-                    <li class="update">New: Executables now signed, should (eventually) make IE less angry; no code changes</li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.62-t007 (2012-01-13)</h2>
-
-                <ul>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/2">#2</a>: At least one case of transparent icons</li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/issues/14">#14</a>: Serial connections giving "Invalid Port"</li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.62-t006 (2011-12-16)</h2>
-
-                <ul>
-                    <li class="update">New: Now built against <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/changes.html">PuTTy 0.62</a>,
-                        a bugfix release, including security updates</li>
-                    <li class="update">New: Simplified URL handling support, fixing <a href="spotify:track:1CNJyTUh56oj3OCZOZ5way">spotify: urls</a></li>
-                    <li class="update">Fixed: <a href="https://github.com/FauxFaux/PuTTYTray/pull/9">#9</a>: Issues with bold fonts and colours</li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.61-t004 (2011-10-09)</h2>
-
-                <ul>
-                    <li class="update">New: Now built against <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/changes.html">PuTTy 0.61</a>,
-                        getting features like Windows 7 Jumplist and Aero support</li>
-                    <li class="update">New: Ctrl+mousewheel zoom support</li>
-                    <li class="update">Fixed: Stupidly huge (256x256) icon for Vista+</li>
-                    <li class="update">Fixed: URL detection works on URLs ending with )s</li>
-                    <li class="update">Fixed: Build script generator (<span style="font-family: monospace">mkfiles.pl</span>) now works as expected</li>
-                </ul>
-
-                <br />
-                <br />
-                <h2>Update: 0.60 (r3) (2011-09-12?)</h2>
-
-                <ul>
-                    <li class="update">New: Load sessions from file using the command line with <em>-loadfile</em> or <em>-file [sessionname]</em></li>
-                    <li class="update">New: Added 'always on top' to the system menu</li>
-                    <li class="update">New: Automatically selects 'sessions from file' when the registry does not contain any sessions</li>
-                    <li class="update">New: Added option 'reconnect on connection failure'</li>
-                    <li class="update">New: Default font set to 'Consolas' when using Windows Vista</li>
-                    <li class="update">Fixed: URL hyperlink bug - preferred browser settings ignored in Windows Vista (thanks Jesper Svennevid)</li>
-                    <li class="update">Fixed: With 'show tray icon: always' enabled: clicking the tray icon will minimize the PuTTY window if it is open.</li>
-                </ul>
-
-                <br />
-                <h2>Note</h2>
-
-                <ul>
-                    <li>The 'reconnect on connection failure' option is experimental!</li>
+                    <li class="update">PuTTYTray p0.66-t027 기반</li>
+                    <li class="update">iPuTTY 한글 패치 적용</li>
                 </ul>
             </div>
 
             <div id="content_download" class="content_pane">
-                <h2><a id="download">Download</a></h2>
+                <h2><a id="download">다운로드</a></h2>
 
-                <p>The current version is 0.63-t020 BETA.<br/>
-                Last update: 22st December, 2013.
-                </p>
+				<div id="linkpage" style="display:none;">
+					<p>설치 버전</p>
 
-                <p>If you have any problems at all, please raise a ticket in the <a href="https://github.com/FauxFaux/PuTTYTray/issues">github bug tracker</a>, preferably after trying it in stock PuTTY, and maybe the previous release, thanks!</p>
+					<ul>
+						<li>
+							<a href="" id="installer"></a><br />
+						</li>
+					</ul>
+					
+					<p>비설치 버전</p>
 
-                <ul>
-                    <li>
-                        <a href="https://puttytray.goeswhere.com/download/putty.exe">putty.exe</a><br />
-                        <span style="font-size: 80%; color: #AAAAAA;">SHA256 / GPG (putty.exe) =
-                            <a href="https://git.goeswhere.com/putty.git/tag/refs/tags/p0.63-t020">aeccb1778ea780f3dc6b4dee8e085d1ad1724a8d9515baaa8a2a576109040660</a></span>
-                    </li>
-                </ul>
+					<ul>
+						<li>
+							<a href="" id="putty-exe">putty.exe</a><br />
+						</li>
+					</ul>
+				</div>
+				<br/>
+				<p>최신 버전과 이전 릴리즈 버전은 아래 GitHub Release 페이지에서 받을 수 있습니다.</p>
+				<ul>
+					<li><a href="https://github.com/teamnop/HPuTTY/releases">GitHub HPuTTY Release</a></li>
+				</ul>
 
-                <p>A 64-bit release is available in the additional downloads; it is not recommended.  There is no-longer a separate pageant download, as it is bundled.</p>
-
-                <ul>
-                    <li>
-                        <a href="https://puttytray.goeswhere.com/download/v020/">Other downloads, including debug symbols</a>,
-                            and <a href="https://puttytray.goeswhere.com/download/">older versions</a><br />
-                    </li>
-                </ul>
-
-                <p>If you are looking for the original version of PuTTY:</p>
-                <ul>
-                    <li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY download page</a></li>
-                </ul>
             </div>
 
             <div id="content_authors" class="content_pane">
-                <h2><a id="authors">Authors</a></h2>
+                <h2><a id="authors">만든사람들</a></h2>
 
+				<p>HPuTTY</p>
+				<ul>
+					<li><a href="http://noricu.be/">Seokju Yun</a>, 메인테이터</li>
+					<li><a href="http://chanwoong.kim/">Chanwoong Kim</a>, 기여자</li>
+				</ul>
+				
+				<p>iPuTTY</p>
+				<ul>
+					<li><a href="http://daybreaker.info/">Joongi Kim</a></li>
+					<li><a href="http://openlook.org/">Hyeshik Jang</a></li>
+					<li>Arcy J. Kong</li>
+					<li>Changho Kim</li>
+					<li><a href="http://stania.pe.kr">Stania Hwang</a></li>
+					<li>Hongkee Yoon</li>
+				</ul>
+				
+				<p>PuTTYTray</p>
                 <ul>
                     <li><a href="https://blog.goeswhere.com/">Chris West (Faux)</a>, the current maintainer</li>
                     <li><a href="http://haanstra.eu/putty/">Barry Haanstra</a>, for the original compilation of PuTTYTray, and this website</li>
@@ -302,45 +193,42 @@
                     <li><a href="http://putty.dwalin.ru/">dwalin.ru</a>, for parts of the TuTTY session icon code</li>
                 </ul>
 
-                <p>And, of course,</p>
+                <p>PuTTY</p>
                 <ul>
                     <li><a href="http://www.chiark.greenend.org.uk/~sgtatham/">Simon Tatham</a>, and the rest of the PuTTY team,
                         for releasing <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a> in the first place.</li>
                 </ul>
 
-                <p><strong>Please note:</strong><br/>If this software does not work as expected, eats your PC or kills your cat,
-                you should know that it comes without warranty of any kind. You install it at your own risk.<br />
-                Also, please do not bother any of the people mentioned above with questions about PuTTY Tray. If it
-                does not work, <a href="https://github.com/FauxFaux/PuTTYTray/issues">raise an issue at github</a>, or try
-                <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">the original version</a>.</p>
             </div>
 
             <div id="content_source" class="content_pane">
-                <h2><a id="source">Source</a></h2>
-                <p><strong>github</strong></p>
-                <p>
-                    The source is available from github.  The compilation is available under <a href="https://github.com/FauxFaux/PuTTYTray/blob/master/LICENCE.PuTTYTray">the MIT license</a>, which allows you to do pretty much anything.
-                </p>
-                <p>
-                    See the <a href="https://github.com/FauxFaux/PuTTYTray/tags">tag list</a> for tar/zip downloads if you'd prefer not to use git.
-                </p>
-                <p>
-                    There's a guide to <a href="https://github.com/FauxFaux/PuTTYTray/wiki/Building-with-VS2010-Express">building PuTTYTray with Visual Studio 2010 Express</a>, to guide you through getting PuTTYTray to build and run, completely from scratch.
-                </p>
-                <ul>
-                    <li><a href="https://github.com/FauxFaux/PuTTYTray">FauxFaux' PuTTYTray github</a></li>
+                <h2><a id="source">소스코드</a></h2>
+				<br/>
+				<ul>
+                    <li><a href="https://github.com/teamnop/HPuTTY">GitHub HPuTTY 저장소</a></li>
                 </ul>
 
                 <p>
-                    If you find a bug or have a feature request, please raise a github issue:
+                    소스코드는 위의 GitHuB 저장소 에서 자유롭게 받으실 수 있습니다.
+                </p>
+				
+				<p>
+                    <a href="https://github.com/teamnop/HPuTTY/wiki/Visual-Studio-2015-Community-%EB%A1%9C-%EB%B9%8C%EB%93%9C%ED%95%98%EA%B8%B0">Visual Studio 2015 Community 로 빌드하기</a> 문서를 참고하여 HPuTTY를 소스코드로 부터 빌드 할 수 있습니다.
+                </p>
+
+				<p>
+					HPuTTY는 <a href="https://github.com/teamnop/HPuTTY/blob/master/LICENCE">MIT 라이센스</a>를 따르며 라이센스 내에서 자유롭게 사용할 수 있습니다.
+				</p>
+				<br/>
+                <p>
+                    기능을 제안하고 싶으시거나, 버그를 발견 하셨으면 아래 GitHub 이슈 페이지 링크를 통해 이야기 해주세요.
                 </p>
                 <ul>
-                    <li><a href="https://github.com/FauxFaux/PuTTYTray/issues">bug tracker</a></li>
+                    <li><a href="https://github.com/teamnop/HPuTTY/issues">HPuTTY 이슈 페이지</a></li>
                 </ul>
-
-
+				<br/>
                 <p>
-                    Please feel free to use the forking and pull-request features of github.
+					Pull-Request와 Fork는 언제나 환영입니다!
                 </p>
 
             </div>
